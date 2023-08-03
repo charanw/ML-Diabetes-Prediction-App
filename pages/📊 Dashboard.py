@@ -180,9 +180,9 @@ positive_stats_table = pd.DataFrame(data={'Mean':[df_src.query('diabetes == 1')[
 st.table(positive_stats_table)
 
 st.subheader('Percent with Comorbidities')
-percentage_stats_table = pd.DataFrame(data={'% With Heart Disease':[len(df_src.query('diabetes == 0 and heart_disease==1'))/len(df_src.query('diabetes==1'))*100,
+percentage_stats_table = pd.DataFrame(data={'% With Heart Disease':[len(df_src.query('diabetes == 0 and heart_disease==1'))/len(df_src.query('diabetes==0'))*100,
                                                              len(df_src.query('diabetes == 1 and heart_disease==1'))/len(df_src.query('diabetes==1'))*100],
-                                            '% With Hypertension':[len(df_src.query('diabetes == 0 and hypertension==1'))/len(df_src.query('diabetes==1'))*100,
+                                            '% With Hypertension':[len(df_src.query('diabetes == 0 and hypertension==1'))/len(df_src.query('diabetes==0'))*100,
                                                              len(df_src.query('diabetes == 1 and hypertension==1'))/len(df_src.query('diabetes==1'))*100
                                                   ]},index=['Diabetes Negative', 'Diabetes Positive'])
 st.table(percentage_stats_table)
