@@ -53,7 +53,7 @@ if submitted:
     if p_heart == 'Yes':
         heart = 1
 
-    elif p_smoke == 'Has Never Smoked':
+    if p_smoke == 'Has Never Smoked':
         Has_Never_Smoked = 1
     elif p_smoke == 'Formerly Smoked':
         Formerly_Smoked = 1

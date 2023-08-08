@@ -54,3 +54,5 @@ with col7:
     st.markdown('<a target="_self" href=/Dashboard><button style="background-color:#58A4B0; border: none; text-decoration: none; padding: 20px; width: 200px; border-radius: 5px;">Dashboard</button></a>', unsafe_allow_html=True)
 st.divider()
 st.write('Created by Charan Williams July, 2023')
+
+print(len(df_src))
