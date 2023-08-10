@@ -19,21 +19,31 @@ def prepare_data (df):
 
     # Use one hot encoding for smoking history. Merge similar smoking answers into "Formerly_Smoked".
     df['Has_Never_Smoked'] = df['smoking_history'].map(lambda x: 1 if x == 'never' else 0)
-    df['Formerly_Smoked'] = df['smoking_history'].map(lambda x: 1 if x == 'ever' or 'former' or 'not current' else 0)
+    df['Formerly_Smoked'] = df['smoking_history'].map(lambda x: 1 if x == ('ever' or 'former' or 'not current') else 0)
     df['Currently_Smokes'] = df['smoking_history'].map(lambda x: 1 if x == 'current' else 0)
 
 
     return df[['age','Male', 'Female', 'Other', 'Has_Never_Smoked', 'Formerly_Smoked', 'Currently_Smokes', 'hypertension', 'heart_disease', 'bmi', 'HbA1c_level', 'blood_glucose_level', 'diabetes']]
 
 # Split the data for training and testing
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', 1000)
+print(df_src.head(20))
+
 training_df = prepare_data(df_src)
+print(training_df.head(20))
+
 features = training_df[['age','Male', 'Female', 'Other', 'Has_Never_Smoked', 'Formerly_Smoked', 'Currently_Smokes', 'hypertension', 'heart_disease', 'bmi', 'HbA1c_level', 'blood_glucose_level']]
 diabetes = training_df['diabetes']
 x_train , x_test , y_train , y_test = train_test_split(features , diabetes ,test_size = 0.3)
 
-# Scale the data
+# Standardize the data
 scaler = StandardScaler()
 training_features = scaler.fit_transform(x_train)
+
+training_features_df = pd.DataFrame(data=training_features, columns=['age','Male', 'Female', 'Other', 'Has_Never_Smoked', 'Formerly_Smoked', 'Currently_Smokes', 'hypertension', 'heart_disease', 'bmi', 'HbA1c_level', 'blood_glucose_level'])
+print(training_features_df.head(20))
+
 testing_features = scaler.transform(x_test)
 joblib.dump(scaler, "diabetes_scaler.save")
 
