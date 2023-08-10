@@ -152,7 +152,11 @@ negative_stats_table = pd.DataFrame(data={'Mean':[df_src.query('diabetes == 0')[
                                           'Max':[df_src.query('diabetes == 0')['age'].max(),
                                                   df_src.query('diabetes == 0')['bmi'].max(),
                                                   df_src.query('diabetes== 0')['HbA1c_level'].max(),
-                                                  df_src.query('diabetes== 0')['blood_glucose_level'].max()],}, index=['Age', 'BMI', 'A1C', 'Blood Glucose'])
+                                                  df_src.query('diabetes== 0')['blood_glucose_level'].max()],
+                                          'Standard Deviation':[df_src.query('diabetes == 1')['age'].std(),
+                                                  df_src.query('diabetes == 0')['bmi'].std(),
+                                                  df_src.query('diabetes== 0')['HbA1c_level'].std(),
+                                                  df_src.query('diabetes== 0')['blood_glucose_level'].std()]}, index=['Age', 'BMI', 'A1C', 'Blood Glucose'])
 st.table(negative_stats_table)
 
 st.header('Diabetes Positive Stats')
@@ -176,7 +180,11 @@ positive_stats_table = pd.DataFrame(data={'Mean':[df_src.query('diabetes == 1')[
                                           'Max':[df_src.query('diabetes == 1')['age'].max(),
                                                   df_src.query('diabetes == 1')['bmi'].max(),
                                                   df_src.query('diabetes== 1')['HbA1c_level'].max(),
-                                                  df_src.query('diabetes== 1')['blood_glucose_level'].max()],}, index=['Age', 'BMI', 'A1C', 'Blood Glucose'])
+                                                  df_src.query('diabetes== 1')['blood_glucose_level'].max()],
+                                          'Standard Deviation':[df_src.query('diabetes == 1')['age'].std(),
+                                                  df_src.query('diabetes == 1')['bmi'].std(),
+                                                  df_src.query('diabetes== 1')['HbA1c_level'].std(),
+                                                  df_src.query('diabetes== 1')['blood_glucose_level'].std()]}, index=['Age', 'BMI', 'A1C', 'Blood Glucose'])
 st.table(positive_stats_table)
 
 st.subheader('Percent with Comorbidities')
