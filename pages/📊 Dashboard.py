@@ -67,14 +67,14 @@ with col1:
     st.subheader('Diabetes Negative')
     st.plotly_chart(px.pie(data_frame=diabetes_negative_gender_totals, names="index", values='gender', color='index',
                            color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
-                           hover_name='index', hover_data='gender'), use_container_width=True, height=200)
+                           hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
 
 with col2:
     diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts().reset_index()
     st.subheader('Diabetes Positive')
     st.plotly_chart(px.pie(data_frame=diabetes_positive_gender_totals, names="index", values='gender', color='index',
                            color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
-                           hover_name='index', hover_data='gender'), use_container_width=True, height=200)
+                           hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
 
 st.divider()
 st.header("BMI, A1C, and Age Distribution")
