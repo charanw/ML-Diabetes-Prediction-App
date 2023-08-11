@@ -77,6 +77,6 @@ st.markdown('Mustafa, M. (2023). <i>Diabetes prediction dataset: A Comprehensive
 st.write('Homepage graphics from lottiefiles.com')
 st.divider()
 st.write('Created by Charan Williams')
-st.write('August, 10th 2023')
+st.write('August 10th, 2023')
 st.caption('Disclaimer: This application is for educational and demonstration purposes only and is not intended to provide actual '
            'medical advice. Always consult a licensed healthcare provider if you have any health concerns.')
