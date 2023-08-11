@@ -65,14 +65,14 @@ col1, col2 = st.columns(2, gap='large')
 with col1:
     diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts().reset_index()
     st.subheader('Diabetes Negative')
-    st.plotly_chart(px.pie(data_frame=diabetes_negative_gender_totals, names="index", values='gender', color='index',
+    st.plotly_chart(px.pie(data_frame=diabetes_negative_gender_totals, names=df_src.index, values='gender', color=df_src.index,
                            color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
                            hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
 
 with col2:
     diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts().reset_index()
     st.subheader('Diabetes Positive')
-    st.plotly_chart(px.pie(data_frame=diabetes_positive_gender_totals, names="index", values='gender', color='index',
+    st.plotly_chart(px.pie(data_frame=diabetes_positive_gender_totals, names=df_src.index, values='gender', color=df_src.index,
                            color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
                            hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
 
