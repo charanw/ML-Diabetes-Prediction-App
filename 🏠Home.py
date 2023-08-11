@@ -76,6 +76,7 @@ st.markdown('Cecelia Health. (2019, April 9). <i> The true cost of diabetes to h
 st.markdown('Mustafa, M. (2023). <i>Diabetes prediction dataset: A Comprehensive Dataset for Predicting Diabetes with Medical & Demographic Data</i> (Version 1) [Dataset]. https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset', unsafe_allow_html=True)
 st.write('Homepage graphics from lottiefiles.com')
 st.divider()
-st.write('Created by Charan Williams August, 2023')
+st.write('Created by Charan Williams')
+st.write('August, 10th 2023')
 st.caption('Disclaimer: This application is for educational and demonstration purposes only and is not intended to provide actual '
            'medical advice. Always consult a licensed healthcare provider if you have any health concerns.')

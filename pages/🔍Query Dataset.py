@@ -77,6 +77,7 @@ if submitted:
             length = len(df_src.query('{field} == {value}'.format(field=str(field), value=value)))
     st.subheader("There are {length} records total.".format(length=length))
 st.divider()
-st.write('Created by Charan Williams August, 2023')
+st.write('Created by Charan Williams')
+st.write('August, 10th 2023')
 st.caption('Disclaimer: This application is for educational and demonstration purposes only and is not intended to provide actual '
          'medical advice. Always consult a licensed healthcare provider if you have any health concerns.')
