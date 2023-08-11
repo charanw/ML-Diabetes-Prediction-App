@@ -34,7 +34,7 @@ with col1:
     st_lottie("https://lottie.host/38df451d-8843-4a72-978e-436e911ebb5c/LoSDYJIVwo.json", height=300)
 with col2:
     "According to Cecelia Health (2019) persons with diabetes cost payer organizations 2.3 times more than " \
-    "non-diabetic members. In addition, Cecelia Health also states that 1 in 7 dollars healthcare dollars is spent " \
+    "non-diabetic members. In addition, Cecelia Health also states that 1 in 7 healthcare dollars is spent " \
     "treating diabetes and related complications."
 "This application addresses the rising costs of claims from diabetic " \
     "members by using a logistic regression machine learning algorithm to predict a diabetes diagnosis, which will " \
