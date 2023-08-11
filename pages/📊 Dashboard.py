@@ -65,16 +65,18 @@ col1, col2 = st.columns(2, gap='large')
 with col1:
     diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts().reset_index()
     st.subheader('Diabetes Negative')
-    st.plotly_chart(px.pie(data_frame=diabetes_negative_gender_totals, names=df_src.index, values='gender', color=df_src.index,
-                           color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
-                           hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
+    st.plotly_chart(
+        px.pie(data_frame=diabetes_negative_gender_totals, names=df_src.index, values='gender', color=df_src.index,
+               color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
+               hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
 
 with col2:
     diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts().reset_index()
     st.subheader('Diabetes Positive')
-    st.plotly_chart(px.pie(data_frame=diabetes_positive_gender_totals, names=df_src.index, values='gender', color=df_src.index,
-                           color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
-                           hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
+    st.plotly_chart(
+        px.pie(data_frame=diabetes_positive_gender_totals, names=df_src.index, values='gender', color=df_src.index,
+               color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
+               hover_name=df_src.index, hover_data='gender'), use_container_width=True, height=200)
 
 st.divider()
 st.header("BMI, A1C, and Age Distribution")
@@ -215,15 +217,16 @@ st.header('Percent with Comorbidities')
 percentage_stats_table = pd.DataFrame(data={'% With Heart Disease': [
     len(df_src.query('diabetes == 0 and heart_disease==1')) / len(df_src.query('diabetes==0')) * 100,
     len(df_src.query('diabetes == 1 and heart_disease==1')) / len(df_src.query('diabetes==1')) * 100],
-                                            '% With Hypertension': [
-                                                len(df_src.query('diabetes == 0 and hypertension==1')) / len(
-                                                    df_src.query('diabetes==0')) * 100,
-                                                len(df_src.query('diabetes == 1 and hypertension==1')) / len(
-                                                    df_src.query('diabetes==1')) * 100
-                                                ]}, index=['Diabetes Negative', 'Diabetes Positive'])
+    '% With Hypertension': [
+        len(df_src.query('diabetes == 0 and hypertension==1')) / len(
+            df_src.query('diabetes==0')) * 100,
+        len(df_src.query('diabetes == 1 and hypertension==1')) / len(
+            df_src.query('diabetes==1')) * 100
+    ]}, index=['Diabetes Negative', 'Diabetes Positive'])
 st.table(percentage_stats_table)
 
 st.divider()
 st.write('Created by Charan Williams August, 2023')
-st.caption('Disclaimer: This application is for educational and demonstration purposes only and is not intended to provide actual '
-         'medical advice. Always consult a licensed healthcare provider if you have any health concerns.')
+st.caption(
+    'Disclaimer: This application is for educational and demonstration purposes only and is not intended to provide actual '
+    'medical advice. Always consult a licensed healthcare provider if you have any health concerns.')
