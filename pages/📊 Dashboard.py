@@ -63,7 +63,8 @@ col1, col2 = st.columns(2, gap='large')
 
 # Create gender breakdown dataframe and pie chart
 with col1:
-    diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts()
+    diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts().rename('count')
+    print(diabetes_negative_gender_totals)
     st.subheader('Diabetes Negative')
     st.plotly_chart(
         px.pie(data_frame=diabetes_negative_gender_totals, names=diabetes_negative_gender_totals.index, values='count', color=diabetes_negative_gender_totals.index,
@@ -71,7 +72,7 @@ with col1:
                hover_name=diabetes_negative_gender_totals.index), use_container_width=True, height=200)
 
 with col2:
-    diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts()
+    diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts().rename('count')
     st.subheader('Diabetes Positive')
     st.plotly_chart(
         px.pie(data_frame=diabetes_positive_gender_totals, names=diabetes_positive_gender_totals.index, values='count', color=diabetes_positive_gender_totals.index,
@@ -134,15 +135,15 @@ col3, col4 = st.columns(2, gap='small')
 with col3:
     # Calculate and display the data completion rate for each column in a table
     st.subheader('Data Completion')
-    st.table((df_src.count() / len(df_src)) * 100)
+    st.table((df_src.count().rename('Completion Rate') / len(df_src)) * 100)
 
 with col4:
     # Calculate and display the counts of relevant values in a table
     st.subheader('Counts')
-    st.table(df_src['hypertension'].value_counts())
-    st.table(df_src['heart_disease'].value_counts())
-    st.table(df_src['diabetes'].value_counts())
-    st.table(df_src['smoking_history'].value_counts())
+    st.table(df_src['hypertension'].value_counts().rename('Records with Hypertension').rename(index={0:'Negative', 1:'Positive'}))
+    st.table(df_src['heart_disease'].value_counts().rename('Records with Heart Disease').rename(index={0:'Negative', 1:'Positive'}))
+    st.table(df_src['diabetes'].value_counts().rename('Records with Diabetes').rename(index={0:'Negative', 1:'Positive'}))
+    st.table(df_src['smoking_history'].value_counts().rename('Smoking History'))
 
 # Create and display a stats table for relevant values of both diabetes negative and positive records,
 # including mean, median, mode, min, max, and standard deviation
