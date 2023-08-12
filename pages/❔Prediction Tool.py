@@ -23,7 +23,6 @@ model, scaler = initialize()
 # Begin page content
 st.title("❔ Prediction Tool")
 st.divider()
-container = st.container()
 st.header('Input Patient Data')
 st.divider()
 
@@ -39,7 +38,9 @@ p_bmi = form.number_input(key='BMI', label='BMI', min_value=0.0, value=25.0, ste
 p_a1c = form.number_input(key='A1C', label='A1C', min_value=0.0, value=5.7, step=1.0)
 p_gluc = form.number_input(key='Gluc', label='Blood Glucose Level', min_value=0.0, value=90.0, step=10.0)
 submitted = form.form_submit_button('Calculate')
+st.divider()
 
+result_container = st.container()
 # When the form is submitted, prepare the inputs and call the model's predict function to generate a prediction
 if submitted:
     male, female, other, hyp, heart, Has_Never_Smoked, Formerly_Smoked, Currently_Smokes = 0, 0, 0, 0, 0, 0, 0, 0
@@ -71,19 +72,18 @@ if submitted:
 
     # Display the results
     if prediction[0] == 1:
-        container.title('Results')
-        container.error(
+        result_container.title('Results')
+        result_container.error(
             'Patient is positive for diabetes. Probability: {}%'.format(round(predict_probability[0][1] * 100, 3)),
             icon="⚠️")
-        container.divider()
+        result_container.divider()
     else:
-        container.title('Results')
-        container.success(
+        result_container.title('Results')
+        result_container.success(
             'Patient is negative for diabetes. Probability: {}%'.format(round(predict_probability[0][0] * 100, 3)),
             icon="✅")
-        container.divider()
+        result_container.divider()
 
-st.divider()
 st.write('Created by Charan Williams')
 st.write('August 10th, 2023')
 st.caption('Disclaimer: This application is for educational and demonstration purposes only and is not intended to provide actual '

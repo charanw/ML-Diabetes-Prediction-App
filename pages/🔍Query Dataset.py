@@ -42,7 +42,9 @@ value = st.selectbox(label='Value', label_visibility='hidden', options=sorted(df
 radio_options_1 = ['Less than', 'Greater than', 'Equal to']
 radio_options_2 = ['Equal to']
 
-if type(value) == str:
+non_numeric_values = {'diabetes', 'heart_disease', 'hypertension'}
+
+if type(value) == str or (field in non_numeric_values):
     operator = container.radio(label='Operator', label_visibility='hidden', options=radio_options_2, horizontal=True)
 else:
     operator = container.radio(label='Operator', label_visibility='hidden', options=radio_options_1, horizontal=True)
@@ -61,7 +63,7 @@ if submitted:
     st.subheader("Showing up to {rows} records where {field} is {operator} {value}:".format(rows=rows, field=field,
                                                                                             operator=operator,
                                                                                             value=value))
-    if type(value) == str:
+    if (type(value) == str):
         st.dataframe(
             df_src.query('{field} == "{value}"'.format(field=str(field), value=value)).head(rows).sort_values(by=field))
         length = len(df_src.query('{field} == "{value}"'.format(field=str(field), value=value)))
