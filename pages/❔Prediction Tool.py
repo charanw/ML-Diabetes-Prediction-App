@@ -23,16 +23,16 @@ model, scaler = initialize()
 # Begin page content
 st.title("❔ Prediction Tool")
 st.divider()
-st.header('Input Patient Data')
+st.header('Input Member Data')
 st.divider()
 
-# Form for inputting patient data to generate predictions
-form = st.form('Patient_Info')
+# Form for inputting member data to generate predictions
+form = st.form('Member_Info')
 p_sex = form.radio(label='Sex', options=['Male', 'Female', 'Other'], key="Gender", horizontal=True)
 p_age = form.number_input(key='Age', label='Age', min_value=1, max_value=120, value=18)
-p_hyp = form.selectbox(key='Hyp', label='Does patient have hypertension?', options=['No', 'Yes'])
-p_heart = form.selectbox(key='Heart', label='Does patient have heart disease?', options=['No', 'Yes'])
-p_smoke = form.selectbox(key='Smoke', label='Does patient smoke?',
+p_hyp = form.selectbox(key='Hyp', label='Does member have hypertension?', options=['No', 'Yes'])
+p_heart = form.selectbox(key='Heart', label='Does member have heart disease?', options=['No', 'Yes'])
+p_smoke = form.selectbox(key='Smoke', label='Does member smoke?',
                          options=['Has Never Smoked', 'Formerly Smoked', 'Currently Smokes'])
 p_bmi = form.number_input(key='BMI', label='BMI', min_value=0.0, value=25.0, step=1.0)
 p_a1c = form.number_input(key='A1C', label='A1C', min_value=0.0, value=5.7, step=1.0)
@@ -74,13 +74,13 @@ if submitted:
     if prediction[0] == 1:
         result_container.title('Results')
         result_container.error(
-            'Patient is positive for diabetes. Probability: {}%'.format(round(predict_probability[0][1] * 100, 3)),
+            'Member is positive for diabetes. Probability: {}%'.format(round(predict_probability[0][1] * 100, 3)),
             icon="⚠️")
         result_container.divider()
     else:
         result_container.title('Results')
         result_container.success(
-            'Patient is negative for diabetes. Probability: {}%'.format(round(predict_probability[0][0] * 100, 3)),
+            'Member is negative for diabetes. Probability: {}%'.format(round(predict_probability[0][0] * 100, 3)),
             icon="✅")
         result_container.divider()
 
