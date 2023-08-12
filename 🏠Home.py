@@ -28,7 +28,7 @@ df_src = st.session_state.df
 # Begin page content
 st.title("⚕️ML Diabetes Prediction")
 st.divider()
-st.header("Catch Diabetes Early")
+st.header("Catch Undiagnosed Diabetes")
 col1, col2 = st.columns([.5, .5])
 with col1:
     st_lottie("https://lottie.host/38df451d-8843-4a72-978e-436e911ebb5c/LoSDYJIVwo.json", height=300)
