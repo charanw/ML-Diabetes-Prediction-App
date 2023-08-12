@@ -140,9 +140,9 @@ with col3:
 with col4:
     # Calculate and display the counts of relevant values in a table
     st.subheader('Counts')
-    st.table(df_src['hypertension'].value_counts().rename('Records with Hypertension').rename(index={0:'Negative', 1:'Positive'}))
-    st.table(df_src['heart_disease'].value_counts().rename('Records with Heart Disease').rename(index={0:'Negative', 1:'Positive'}))
-    st.table(df_src['diabetes'].value_counts().rename('Records with Diabetes').rename(index={0:'Negative', 1:'Positive'}))
+    st.table(df_src['hypertension'].value_counts().rename('Hypertension Status').rename(index={0:'Negative', 1:'Positive'}))
+    st.table(df_src['heart_disease'].value_counts().rename('Heart Disease Status').rename(index={0:'Negative', 1:'Positive'}))
+    st.table(df_src['diabetes'].value_counts().rename('Diabetes Status').rename(index={0:'Negative', 1:'Positive'}))
     st.table(df_src['smoking_history'].value_counts().rename('Smoking History'))
 
 # Create and display a stats table for relevant values of both diabetes negative and positive records,
