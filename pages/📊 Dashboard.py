@@ -53,7 +53,7 @@ confusion_table = go.Figure(
 
 st.plotly_chart(confusion_table, use_container_width=True, height=300)
 
-# Assign the model's training score, testing score, accurracy, precision, and recall
+# Assign the model's training score, testing score, accuracy, precision, recall, and F1-score
 training_score = test_results['training score']
 testing_score = test_results['testing score']
 accuracy = test_results['accuracy']
@@ -61,27 +61,28 @@ precision = test_results['precision']
 recall = test_results['recall']
 f1_score = test_results['f1']
 
-# Create 2 column layout
-col1, col2 = st.columns(2, gap='large')
-
-# Display the test metrics
+# Create 3 column layout for metrics
+col1, col2, col3 = st.columns(3, gap='large')
 with col1:
-    st.subheader(f"Accuracy: {accuracy * 100:.1f}%")
-    st.subheader(f"Training Set Score: {training_score * 100:.1f}%")
-    st.subheader(f"Precision: {precision * 100:.1f}%")
+    st.metric(label='Accuracy', value=f"{accuracy * 100:.1f}%")
+    st.metric(label='F1-Score', value=f"{f1_score * 100:.1f}%")
+
 with col2:
-    st.subheader(f"F1-Score: {f1_score * 100: .1f}%")
-    st.subheader(f"Testing Set Score: {testing_score * 100:.1f}%")
-    st.subheader(f"Recall: {recall * 100:.1f}%")
+    st.metric(label='Training Score', value=f"{training_score * 100:.1f}%")
+    st.metric(label='Testing Set Score', value=f"{testing_score * 100:.1f}%")
+
+with col3:
+    st.metric(label='Precision', value=f"{precision * 100:.1f}%")
+    st.metric(label='Recall', value=f"{recall * 100:.1f}%")
 
 st.divider()
 
 # Create 2 column layout
 st.header('Gender Breakdown')
-col2, col3 = st.columns(2, gap='large')
+col1, col2 = st.columns(2, gap='large')
 
 # Create and display gender breakdown dataframe and pie chart
-with col2:
+with col1:
     diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts().rename('count')
     print(diabetes_negative_gender_totals)
     st.subheader('Diabetes Negative')
@@ -91,7 +92,7 @@ with col2:
                color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
                hover_name=diabetes_negative_gender_totals.index), use_container_width=True, height=200)
 
-with col3:
+with col2:
     diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts().rename('count')
     st.subheader('Diabetes Positive')
     st.plotly_chart(
@@ -153,13 +154,13 @@ st.divider()
 st.header('Data Analysis')
 
 # Create another 2 column layout
-col5, col6 = st.columns(2, gap='small')
-with col5:
+col1, col2 = st.columns(2, gap='small')
+with col1:
     # Calculate and display the data completion rate for each column in a table
     st.subheader('Data Completion')
     st.table((df_src.count().rename('Completion Rate') / len(df_src)) * 100)
 
-with col6:
+with col2:
     # Calculate and display the counts of relevant values in a table
     st.subheader('Counts')
     st.table(df_src['hypertension'].value_counts().rename('Hypertension Status').rename(
