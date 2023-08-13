@@ -1,4 +1,7 @@
+streamlit
 streamlit_lottie
 plotly
 joblib
 scikit-learn
+pandas
+

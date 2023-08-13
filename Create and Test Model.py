@@ -27,7 +27,7 @@ def prepare_data(df):
          'heart_disease', 'bmi', 'HbA1c_level', 'blood_glucose_level', 'diabetes']]
 
 
-# Split the data for training and testing
+# Settings for pandas console output
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 1000)
 
@@ -38,6 +38,7 @@ training_df = prepare_data(df_src)
 # Print the data for visualization
 print(training_df.head(20))
 
+# Split the data for training and testing
 features = training_df[
     ['age', 'Male', 'Female', 'Other', 'Has_Never_Smoked', 'Formerly_Smoked', 'Currently_Smokes', 'hypertension',
      'heart_disease', 'bmi', 'HbA1c_level', 'blood_glucose_level']].values
