@@ -89,10 +89,3 @@ test_results = test_model(model, testing_features, y_train, y_test)
 joblib.dump(scaler, "diabetes_scaler.save")
 joblib.dump(model, "diabetes_model.save")
 joblib.dump(test_results, "test_results.save")
-
-# testing_score, y_predict = test_model(model, testing_features, y_test)
-#
-# confusion_matrix = confusion_matrix(y_test, y_predict)
-# precision = precision_score(y_test, y_predict)
-# recall = recall_score(y_test, y_predict)
-# f1 = f1_score(y_test, y_predict)
