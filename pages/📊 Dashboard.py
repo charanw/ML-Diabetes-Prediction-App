@@ -61,7 +61,7 @@ precision = test_results['precision']
 recall = test_results['recall']
 f1_score = test_results['f1']
 
-# Create 3 column layout for metrics
+# Create 3 column layout and display metrics
 col1, col2, col3 = st.columns(3, gap='large')
 with col1:
     st.metric(label='Accuracy', value=f"{accuracy * 100:.1f}%")
@@ -84,7 +84,6 @@ col1, col2 = st.columns(2, gap='large')
 # Create and display gender breakdown dataframe and pie chart
 with col1:
     diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts().rename('count')
-    print(diabetes_negative_gender_totals)
     st.subheader('Diabetes Negative')
     st.plotly_chart(
         px.pie(data_frame=diabetes_negative_gender_totals, names=diabetes_negative_gender_totals.index, values='count',
