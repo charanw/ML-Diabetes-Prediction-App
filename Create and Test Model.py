@@ -57,8 +57,9 @@ training_features_df = pd.DataFrame(data=training_features,
 print(training_features_df.head(20))
 
 testing_features = scaler.transform(x_test)
-joblib.dump(scaler, "diabetes_scaler.save")
 
+# Save the scaler as a python object using joblib for later use
+joblib.dump(scaler, "diabetes_scaler.save")
 
 # Create the model
 def create_model(training_features, y_train):
