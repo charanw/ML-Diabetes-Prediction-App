@@ -78,8 +78,8 @@ def test_model(model, testing_features, y_train, y_test):
     precision = precision_score(y_test, y_predict)
     recall = recall_score(y_test, y_predict)
     f1 = f1_score(y_test, y_predict)
-    return {'confusion matrix': confusion_matrix, 'training score': training_score, 'testing score': testing_score, 'accuracy':accuracy,
-            'precision': precision, 'recall': recall, 'f1': f1}
+    return {'confusion matrix': confusion_matrix, 'training score': training_score, 'testing score': testing_score,
+            'accuracy': accuracy, 'precision': precision, 'recall': recall, 'f1': f1}
 
 
 model = create_model(training_features)
