@@ -24,8 +24,8 @@ def load_data():
 # Function to load and cache the confusion matrix generated when testing the model
 @st.cache_data
 def initialize():
-    confusion_matrix = joblib.load("diabetes_confusion_matrix.save")
-    return confusion_matrix
+    test_results = joblib.load("test_results.save")
+    return test_results
 
 
 # Save the data as a state variable so that it can be accessed by other pages
@@ -40,8 +40,30 @@ st.divider()
 
 st.header("Model Performance")
 
+# Load and display the training and testing scores of the model
+test_results = initialize()
+training_score = test_results['training score']
+testing_score = test_results['testing score']
+
+# Calculate the model's accuracy, precision, and recall
+
+accuracy = test_results['accuracy']
+precision = test_results['precision']
+recall = test_results['recall']
+f1_score = test_results['f1']
+
+col1, col2 = st.columns(2, gap='large')
+
+# Display the accuracy and f1 score
+with col1:
+    st.subheader(f"Accuracy: {accuracy * 100:.1f}%")
+with col2:
+    st.subheader(f"F1-Score: {f1_score * 100: .1f}%")
+
 # Create and display accuracy bar chart
-confusion_matrix = initialize()
+confusion_matrix = test_results['confusion matrix']
+false_negative, true_negative, true_positive, false_positive = confusion_matrix[1][0], confusion_matrix[0][0], \
+confusion_matrix[1][1], confusion_matrix[0][1]
 confusion_table = go.Figure(
     data=[go.Bar(
         x=["False Negative", "True Negative", "True Positive", "False Positive"],
@@ -49,33 +71,40 @@ confusion_table = go.Figure(
 
 st.plotly_chart(confusion_table, use_container_width=True, height=300)
 
-# Load and display the training and testing scores of the model
-scores = joblib.load("training_and_testing_scores.save")
-training_score = scores[0]
-testing_score = scores[1]
-st.subheader("Training Set Score = {}%".format(round(training_score, 3) * 100))
-st.subheader("Testing Set Score = {}%".format(round(testing_score, 3) * 100))
+# Display the training score, testing score, precision, and recall
+
+col3, col4 = st.columns(2, gap='large')
+
+with col3:
+    st.subheader(f"Training Set Score: {training_score * 100:.1f}%")
+    st.subheader(f"Precision: {precision * 100:.1f}%")
+with col4:
+    st.subheader(f"Testing Set Score: {testing_score * 100:.1f}%")
+    st.subheader(f"Recall: {recall * 100:.1f}%")
+
 st.divider()
 
 # Create 2 column layout
 st.header('Gender Breakdown')
-col1, col2 = st.columns(2, gap='large')
+col5, col6 = st.columns(2, gap='large')
 
 # Create gender breakdown dataframe and pie chart
-with col1:
+with col5:
     diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts().rename('count')
     print(diabetes_negative_gender_totals)
     st.subheader('Diabetes Negative')
     st.plotly_chart(
-        px.pie(data_frame=diabetes_negative_gender_totals, names=diabetes_negative_gender_totals.index, values='count', color=diabetes_negative_gender_totals.index,
+        px.pie(data_frame=diabetes_negative_gender_totals, names=diabetes_negative_gender_totals.index, values='count',
+               color=diabetes_negative_gender_totals.index,
                color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
                hover_name=diabetes_negative_gender_totals.index), use_container_width=True, height=200)
 
-with col2:
+with col6:
     diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts().rename('count')
     st.subheader('Diabetes Positive')
     st.plotly_chart(
-        px.pie(data_frame=diabetes_positive_gender_totals, names=diabetes_positive_gender_totals.index, values='count', color=diabetes_positive_gender_totals.index,
+        px.pie(data_frame=diabetes_positive_gender_totals, names=diabetes_positive_gender_totals.index, values='count',
+               color=diabetes_positive_gender_totals.index,
                color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
                hover_name=diabetes_positive_gender_totals.index), use_container_width=True, height=200)
 
@@ -131,18 +160,20 @@ st.divider()
 st.header('Data Analysis')
 
 # Create another 2 column layout
-col3, col4 = st.columns(2, gap='small')
-with col3:
+col7, col8 = st.columns(2, gap='small')
+with col7:
     # Calculate and display the data completion rate for each column in a table
     st.subheader('Data Completion')
     st.table((df_src.count().rename('Completion Rate') / len(df_src)) * 100)
 
-with col4:
+with col8:
     # Calculate and display the counts of relevant values in a table
     st.subheader('Counts')
-    st.table(df_src['hypertension'].value_counts().rename('Hypertension Status').rename(index={0:'Negative', 1:'Positive'}))
-    st.table(df_src['heart_disease'].value_counts().rename('Heart Disease Status').rename(index={0:'Negative', 1:'Positive'}))
-    st.table(df_src['diabetes'].value_counts().rename('Diabetes Status').rename(index={0:'Negative', 1:'Positive'}))
+    st.table(df_src['hypertension'].value_counts().rename('Hypertension Status').rename(
+        index={0: 'Negative', 1: 'Positive'}))
+    st.table(df_src['heart_disease'].value_counts().rename('Heart Disease Status').rename(
+        index={0: 'Negative', 1: 'Positive'}))
+    st.table(df_src['diabetes'].value_counts().rename('Diabetes Status').rename(index={0: 'Negative', 1: 'Positive'}))
     st.table(df_src['smoking_history'].value_counts().rename('Smoking History'))
 
 # Create and display a stats table for relevant values of both diabetes negative and positive records,

@@ -1,7 +1,8 @@
 import joblib
 import pandas as pd
+import sklearn.metrics
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
@@ -58,30 +59,40 @@ print(training_features_df.head(20))
 
 testing_features = scaler.transform(x_test)
 
-# Save the scaler as a python object using joblib for later use
-joblib.dump(scaler, "diabetes_scaler.save")
 
 # Create the model
-def create_model(training_features, y_train):
+def create_model(training_features):
     model = LogisticRegression()
     model.fit(training_features, y_train)
-    training_score = model.score(training_features, y_train)
-    return model, training_score
+    return model
 
 
 # Test the model
-def test_model(model, testing_features, y_test):
+def test_model(model, testing_features, y_train, y_test):
+    training_score = model.score(training_features, y_train)
     testing_score = model.score(testing_features, y_test)
     y_predict = model.predict(testing_features)
-    return testing_score, y_predict
+
+    confusion_matrix = sklearn.metrics.confusion_matrix(y_test, y_predict)
+    accuracy = accuracy_score(y_test, y_predict)
+    precision = precision_score(y_test, y_predict)
+    recall = recall_score(y_test, y_predict)
+    f1 = f1_score(y_test, y_predict)
+    return {'confusion matrix': confusion_matrix, 'training score': training_score, 'testing score': testing_score, 'accuracy':accuracy,
+            'precision': precision, 'recall': recall, 'f1': f1}
 
 
-model, training_score = create_model(training_features, y_train)
-testing_score, y_predict = test_model(model, testing_features, y_test)
-confusion_matrix = confusion_matrix(y_test, y_predict)
-scores = [training_score, testing_score]
+model = create_model(training_features)
+test_results = test_model(model, testing_features, y_train, y_test)
 
-# Save the generated model, confusion matrix, and testing scores as python objects using joblib
+# Save the scaler, generated model, and test results as python objects using joblib
+joblib.dump(scaler, "diabetes_scaler.save")
 joblib.dump(model, "diabetes_model.save")
-joblib.dump(confusion_matrix, "diabetes_confusion_matrix.save")
-joblib.dump(scores, "training_and_testing_scores.save")
+joblib.dump(test_results, "test_results.save")
+
+# testing_score, y_predict = test_model(model, testing_features, y_test)
+#
+# confusion_matrix = confusion_matrix(y_test, y_predict)
+# precision = precision_score(y_test, y_predict)
+# recall = recall_score(y_test, y_predict)
+# f1 = f1_score(y_test, y_predict)
