@@ -68,7 +68,7 @@ def create_model(training_features):
 
 
 # Test the model
-def test_model(model, testing_features, y_train, y_test):
+def test_model(model, training_features, testing_features, y_train, y_test):
     training_score = model.score(training_features, y_train)
     testing_score = model.score(testing_features, y_test)
     y_predict = model.predict(testing_features)
@@ -84,7 +84,7 @@ def test_model(model, testing_features, y_train, y_test):
 
 # Call the functions to create the model and run the tests
 model = create_model(training_features)
-test_results = test_model(model, testing_features, y_train, y_test)
+test_results = test_model(model, training_features, testing_features, y_train, y_test)
 
 # Save the scaler, generated model, and test results as python objects using joblib
 joblib.dump(scaler, "diabetes_scaler.save")
