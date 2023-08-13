@@ -32,7 +32,9 @@ def initialize():
 if 'df' not in st.session_state:
     st.session_state.df = load_data()
 
+# Assign initial dataframe and test result variables
 df_src = st.session_state.df
+test_results = initialize()
 
 # Begin Page Content
 st.title("📊 Dashboard")
@@ -40,30 +42,10 @@ st.divider()
 
 st.header("Model Performance")
 
-# Load and display the training and testing scores of the model
-test_results = initialize()
-training_score = test_results['training score']
-testing_score = test_results['testing score']
-
-# Calculate the model's accuracy, precision, and recall
-
-accuracy = test_results['accuracy']
-precision = test_results['precision']
-recall = test_results['recall']
-f1_score = test_results['f1']
-
-col1, col2 = st.columns(2, gap='large')
-
-# Display the accuracy and f1 score
-with col1:
-    st.subheader(f"Accuracy: {accuracy * 100:.1f}%")
-with col2:
-    st.subheader(f"F1-Score: {f1_score * 100: .1f}%")
-
 # Create and display accuracy bar chart
 confusion_matrix = test_results['confusion matrix']
 false_negative, true_negative, true_positive, false_positive = confusion_matrix[1][0], confusion_matrix[0][0], \
-confusion_matrix[1][1], confusion_matrix[0][1]
+    confusion_matrix[1][1], confusion_matrix[0][1]
 confusion_table = go.Figure(
     data=[go.Bar(
         x=["False Negative", "True Negative", "True Positive", "False Positive"],
@@ -71,14 +53,24 @@ confusion_table = go.Figure(
 
 st.plotly_chart(confusion_table, use_container_width=True, height=300)
 
-# Display the training score, testing score, precision, and recall
+# Assign the model's training score, testing score, accurracy, precision, and recall
+training_score = test_results['training score']
+testing_score = test_results['testing score']
+accuracy = test_results['accuracy']
+precision = test_results['precision']
+recall = test_results['recall']
+f1_score = test_results['f1']
 
-col3, col4 = st.columns(2, gap='large')
+# Create 2 column layout
+col1, col2 = st.columns(2, gap='large')
 
-with col3:
+# Display the test metrics
+with col1:
+    st.subheader(f"Accuracy: {accuracy * 100:.1f}%")
     st.subheader(f"Training Set Score: {training_score * 100:.1f}%")
     st.subheader(f"Precision: {precision * 100:.1f}%")
-with col4:
+with col2:
+    st.subheader(f"F1-Score: {f1_score * 100: .1f}%")
     st.subheader(f"Testing Set Score: {testing_score * 100:.1f}%")
     st.subheader(f"Recall: {recall * 100:.1f}%")
 
@@ -86,10 +78,10 @@ st.divider()
 
 # Create 2 column layout
 st.header('Gender Breakdown')
-col5, col6 = st.columns(2, gap='large')
+col2, col3 = st.columns(2, gap='large')
 
-# Create gender breakdown dataframe and pie chart
-with col5:
+# Create and display gender breakdown dataframe and pie chart
+with col2:
     diabetes_negative_gender_totals = df_src.query('diabetes == 0')['gender'].value_counts().rename('count')
     print(diabetes_negative_gender_totals)
     st.subheader('Diabetes Negative')
@@ -99,7 +91,7 @@ with col5:
                color_discrete_map={'Male': '#57799E', 'Female': '#DAA49A', 'Other': '#41818B'},
                hover_name=diabetes_negative_gender_totals.index), use_container_width=True, height=200)
 
-with col6:
+with col3:
     diabetes_positive_gender_totals = df_src.query('diabetes == 1')['gender'].value_counts().rename('count')
     st.subheader('Diabetes Positive')
     st.plotly_chart(
@@ -109,6 +101,7 @@ with col6:
                hover_name=diabetes_positive_gender_totals.index), use_container_width=True, height=200)
 
 st.divider()
+
 st.header("BMI, A1C, and Age Distribution")
 # Create dataframe with all bmi data and only bmi data of those who have diabetes
 diabetes_negative_bmi_data = go.Histogram(x=df_src.query('diabetes == 0')['bmi'], marker=dict(color='#6E8EAF'),
@@ -160,13 +153,13 @@ st.divider()
 st.header('Data Analysis')
 
 # Create another 2 column layout
-col7, col8 = st.columns(2, gap='small')
-with col7:
+col5, col6 = st.columns(2, gap='small')
+with col5:
     # Calculate and display the data completion rate for each column in a table
     st.subheader('Data Completion')
     st.table((df_src.count().rename('Completion Rate') / len(df_src)) * 100)
 
-with col8:
+with col6:
     # Calculate and display the counts of relevant values in a table
     st.subheader('Counts')
     st.table(df_src['hypertension'].value_counts().rename('Hypertension Status').rename(
@@ -178,11 +171,6 @@ with col8:
 
 # Create and display a stats table for relevant values of both diabetes negative and positive records,
 # including mean, median, mode, min, max, and standard deviation
-negative_stats_table = pd.DataFrame(index=['Diabetes Negative', ],
-                                    columns=['Mean', 'Median', 'Mode', 'Min', 'Max', 'Standard Deviation'])
-positive_stats_table = pd.DataFrame(index=['Diabetes Positive', ],
-                                    columns=['Mean', 'Median', 'Mode', 'Min', 'Max', 'Standard Deviation'])
-
 st.header('Diabetes Negative Stats')
 negative_stats_table = pd.DataFrame(data={'Mean': [df_src.query('diabetes == 0')['age'].mean(),
                                                    df_src.query('diabetes == 0')['bmi'].mean(),
