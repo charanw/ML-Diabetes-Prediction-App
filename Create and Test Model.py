@@ -82,6 +82,7 @@ def test_model(model, testing_features, y_train, y_test):
             'accuracy': accuracy, 'precision': precision, 'recall': recall, 'f1': f1}
 
 
+# Call the functions to create the model and run the tests
 model = create_model(training_features)
 test_results = test_model(model, testing_features, y_train, y_test)
 
